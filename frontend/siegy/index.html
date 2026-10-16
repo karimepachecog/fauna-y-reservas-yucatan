@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/estilos.css" />
+  <link rel="stylesheet" href="../css/vida.css" />
 </head>
-<body>
+<body class="noche bajo-tierra">
   <header class="barra">
     <a href="../index.html">Península</a>
     <div>
@@ -22,27 +23,75 @@
     </div>
   </header>
   <main class="pagina">
-    <p class="lead">El boletín 3 del SIEGY (2026) ubica bajo la península el acuífero más grande de México, de más de 100,000 km², y más de 2,000 cenotes en Yucatán. Al lado, las nueve reservas del sistema estatal ocupan 535,245 hectáreas: 14% del estado.</p>
-    <section class="lamina" id="lamina">
-      <div>
-        <p class="ceja">SIEGY · Boletín 3, 2026</p>
-        <h2>El agua bajo las reservas</h2>
-        <div class="indicadores" id="indicadores"></div>
-        <svg id="grafica" class="grafica" viewBox="0 0 640 250" role="img"></svg>
-        <div class="detalle" id="detalle"></div>
+    <div class="recorrido" id="recorrido">
+      <div class="columna-escena">
+        <div class="escena" id="lamina" data-paso="superficie">
+          <div class="cielo-escena"></div>
+          <img class="arbol mangle" src="/img/mangle.svg" alt="" />
+          <img class="arbol ceiba" src="/img/ceiba.svg" alt="" />
+          <div class="suelo"></div>
+          <div class="tierra"></div>
+          <div class="grieta"></div>
+          <div class="subsuelo" aria-hidden="true">
+            <div class="roca"></div>
+            <div class="roca"></div>
+            <div class="roca"></div>
+          </div>
+          <div class="agua" id="agua"><div class="ola"></div></div>
+          <canvas id="cenotes"></canvas>
+          <div id="burbujas"></div>
+          <p id="logro" class="logro" hidden></p>
+          <p id="globo" class="globo">Baja para ver qué hay debajo de la selva.</p>
+        </div>
       </div>
-      <div>
-        <p class="ceja">SDS · Sistema estatal SANPY</p>
-        <h2>Nueve reservas, costa e interior</h2>
-        <p class="nota">171,747 ha en la costa y 363,498 ha tierra adentro. Pulsa una reserva para ver su decreto.</p>
-        <div id="reservas"></div>
-        <p class="detalle" id="reserva-detalle">La costa reúne Dzilam, El Palmar y las ciénagas y manglares del norte.</p>
+      <div class="pasos" id="pasos">
+        <section class="paso" data-paso="superficie">
+          <p class="ceja">1 · Superficie</p>
+          <h2>¿Qué hay debajo de tus pies?</h2>
+          <p>En Yucatán el suelo es una losa de caliza y, aun así, hay selva y manglar arriba. El boletín 3 del SIEGY (2026) cuenta lo que corre debajo. Sigue bajando.</p>
+        </section>
+        <section class="paso" data-paso="corte">
+          <p class="ceja">2 · La roca</p>
+          <h2>La caliza se abre</h2>
+          <p>La lluvia se cuela por las grietas. Con los siglos abre cuevas, y donde el techo se cae aparece un cenote.</p>
+        </section>
+        <section class="paso" data-paso="acuifero">
+          <p class="ceja">3 · SIEGY · Boletín 3, 2026</p>
+          <h2>Un mar que no se ve</h2>
+          <p id="texto-acuifero"></p>
+        </section>
+        <section class="paso" data-paso="cenotes">
+          <p class="ceja">4 · Pictograma</p>
+          <h2>Se encienden los cenotes</h2>
+          <p id="texto-cenotes"></p>
+        </section>
+        <section class="paso" data-paso="anillo">
+          <p class="ceja">5 · El arco</p>
+          <h2>El anillo del cráter</h2>
+          <p id="texto-anillo"></p>
+        </section>
+        <section class="paso" data-paso="reservas">
+          <p class="ceja">6 · SDS · SANPY</p>
+          <h2>Nueve reservas, en burbujas</h2>
+          <p id="texto-reservas"></p>
+          <p class="nota">Toca cada burbuja. El área sigue las hectáreas; las más chicas conservan un borde para poder tocarlas. Costa, junto al manglar. Interior, más abajo.</p>
+        </section>
       </div>
-    </section>
-    <p class="fuentes">Primaria: Sistema de Información Estadística y Geográfica de Yucatán (SIEGY, antes SIEGI), <a href="https://datos.yucatan.gob.mx/storage/boletines/archivos/2026/Boletin_2026_03.pdf">Boletín 3, 2026</a>, Día Mundial del Agua. El acuífero lo toma de CONAGUA 2020 y los cenotes, de la Secretaría de Desarrollo Sustentable. Secundaria: la misma secretaría, <a href="https://sds.yucatan.gob.mx/areas-naturales/sanpy.php">Sistema de Áreas Naturales Protegidas del Estado</a>, cifras publicadas con corte SDS 2019.</p>
+    </div>
+    <table class="sr-only" id="tabla-reservas">
+      <caption>Reservas estatales de Yucatán</caption>
+      <thead>
+        <tr><th>Nombre</th><th>Categoría</th><th>Hectáreas</th><th>Zona</th><th>Decreto</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p class="fuentes">Primaria: Sistema de Información Estadística y Geográfica de Yucatán (SIEGY, antes SIEGI), <a href="https://datos.yucatan.gob.mx/storage/boletines/archivos/2026/Boletin_2026_03.pdf">Boletín 3, 2026</a>, Día Mundial del Agua. El acuífero lo toma de CONAGUA 2020 y los cenotes, de la Secretaría de Desarrollo Sustentable. Secundaria: la misma secretaría, <a href="https://sds.yucatan.gob.mx/areas-naturales/sanpy.php">Sistema de Áreas Naturales Protegidas del Estado</a>, cifras publicadas con corte SDS 2019. El arco geológico: <a href="https://rsis.ramsar.org/ris/2043">ficha Ramsar del Anillo de Cenotes</a> y <a href="https://whc.unesco.org/en/tentativelists/5784/">lista tentativa de UNESCO</a>.</p>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
   <script src="../js/exportar.js"></script>
+  <script src="../js/vida.js"></script>
   <script src="grafica.js"></script>
 </body>
 </html>

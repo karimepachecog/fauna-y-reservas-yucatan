@@ -5,6 +5,13 @@ const NOMBRES = {
   SANT: "Santuario",
 };
 
+const ICONOS = {
+  RB: "/img/jaguar.svg",
+  PN: "/img/hoja.svg",
+  APFF: "/img/flamenco.svg",
+  SANT: "/img/tortuga.svg",
+};
+
 const CAPAS = [
   { id: "manglar", titulo: "Cambio de manglar, 2020-2025", archivo: "/api/manglar/", activo: true },
   { id: "prioritarios-terrestres", titulo: "Sitios prioritarios terrestres", archivo: "/api/sitios-terrestres/", activo: false },
@@ -18,7 +25,7 @@ const mapa = new maplibregl.Map({
   container: "mapa",
   style: "https://tiles.openfreemap.org/styles/positron",
   center: [-89.6, 19.6],
-  zoom: 6.2,
+  zoom: 4.8,
   preserveDrawingBuffer: true,
   attributionControl: true,
 });
@@ -69,7 +76,8 @@ function hectareas(valor) {
 
 function fichaDe(capa, p) {
   if (capa === "anp-federales") {
-    return `<p><strong>${p.nombre}</strong></p><p>${NOMBRES[p.cat_manejo] || p.cat_manejo}</p><p>${p.estados}</p><p>${hectareas(p.superficie)} decretadas · tierra ${hectareas(p.s_terres)} · mar ${hectareas(p.s_marina)}</p>`;
+    const icono = ICONOS[p.cat_manejo] ? `<img src="${ICONOS[p.cat_manejo]}" alt="">` : "";
+    return `<p class="ficha-titulo">${icono}<strong>${p.nombre}</strong></p><p>${NOMBRES[p.cat_manejo] || p.cat_manejo}</p><p>${p.estados}</p><p>${hectareas(p.superficie)} decretadas · tierra ${hectareas(p.s_terres)} · mar ${hectareas(p.s_marina)}</p>`;
   }
   if (capa === "anp-otras") {
     return `<p><strong>${p.nombre}</strong></p><p>${p.tipo}${p.cat_dec ? ` · ${p.cat_dec}` : ""}</p><p>${p.entidad}</p><p>${hectareas(p.ha)} en el polígono</p>`;
@@ -90,7 +98,26 @@ function pintarStats() {
   const destino = document.getElementById("stats");
   if (!resumen) return;
   const filas = resumen.estados.filter((e) => estadoSelect.value === "todas" || e.estado === estadoSelect.value);
-  destino.innerHTML = `<table class="stats"><thead><tr><th>Estado</th><th>Federal</th><th>Otras</th></tr></thead><tbody>${filas.map((e) => `<tr><td>${e.estado}<br><span class="nota">${e.poblacion_2020.toLocaleString("es-MX")} hab.</span></td><td>${e.ha_federales_por_habitante.toLocaleString("es-MX", { maximumFractionDigits: 3 })} ha<br><span class="nota">${Math.round(e.ha_federales_terrestres).toLocaleString("es-MX")} ha</span></td><td>${e.ha_otras_por_habitante.toLocaleString("es-MX", { maximumFractionDigits: 3 })} ha<br><span class="nota">${Math.round(e.ha_otras).toLocaleString("es-MX")} ha</span></td></tr>`).join("")}</tbody></table>`;
+  const maximo = Math.max(...filas.flatMap((e) => [e.ha_federales_por_habitante, e.ha_otras_por_habitante]), 0.001);
+  destino.innerHTML = filas.map((e) => `
+    <div class="stat-estado">
+      <strong>${e.estado}</strong>
+      <span class="nota">${e.poblacion_2020.toLocaleString("es-MX")} hab.</span>
+      <div class="stat-linea"><span>Federal</span><span class="stat-pista"><i class="stat-relleno" data-ancho="${(e.ha_federales_por_habitante / maximo) * 100}"></i></span><span data-contar="${e.ha_federales_por_habitante}">0</span></div>
+      <p class="nota">${Math.round(e.ha_federales_terrestres).toLocaleString("es-MX")} ha terrestres</p>
+      <div class="stat-linea"><span>Otras</span><span class="stat-pista"><i class="stat-relleno otra" data-ancho="${(e.ha_otras_por_habitante / maximo) * 100}"></i></span><span data-contar="${e.ha_otras_por_habitante}">0</span></div>
+      <p class="nota">${Math.round(e.ha_otras).toLocaleString("es-MX")} ha</p>
+    </div>`).join("");
+  requestAnimationFrame(() => {
+    destino.querySelectorAll(".stat-relleno").forEach((barra) => {
+      barra.style.width = `${barra.dataset.ancho}%`;
+    });
+    destino.querySelectorAll("[data-contar]").forEach((nodo) => {
+      const valor = Number(nodo.dataset.contar);
+      if (window.vida) window.vida.contar(nodo, valor, { decimales: 3, sufijo: " ha" });
+      else nodo.textContent = `${valor.toLocaleString("es-MX", { maximumFractionDigits: 3 })} ha`;
+    });
+  });
 }
 
 function pintarLeyenda() {
@@ -157,14 +184,73 @@ mapa.on("load", async () => {
       controles.appendChild(etiqueta);
     });
 
+    mapa.addSource("anp-hover", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+    mapa.addLayer({
+      id: "anp-hover",
+      type: "line",
+      source: "anp-hover",
+      paint: { "line-color": "#f2d48a", "line-width": 2, "line-opacity": 0.95 },
+    });
     aplicarFiltros();
     pintarLeyenda();
+    CAPAS.forEach((capa, indice) => {
+      window.setTimeout(() => aparecer(capa.id), indice * 140);
+    });
+    if (window.vida?.reducido) mapa.jumpTo({ center: [-89.6, 19.6], zoom: 6.2 });
+    else mapa.flyTo({ center: [-89.6, 19.6], zoom: 6.2, speed: 0.32, curve: 1.45, essential: true });
+    mapa.on("mousemove", "anp-federales", (evento) => {
+      const feature = evento.features && evento.features[0];
+      if (!feature || !mapa.getSource("anp-hover")) return;
+      mapa.getCanvas().style.cursor = "pointer";
+      pulsoActivo = true;
+      if (feature.id === idPulso) return;
+      idPulso = feature.id;
+      const geo = feature.toJSON ? feature.toJSON() : feature;
+      mapa.getSource("anp-hover").setData({
+        type: "Feature",
+        geometry: geo.geometry,
+        properties: geo.properties || {},
+      });
+    });
+    mapa.on("mouseleave", "anp-federales", () => {
+      mapa.getCanvas().style.cursor = "";
+      pulsoActivo = false;
+      idPulso = null;
+      const fuente = mapa.getSource("anp-hover");
+      if (fuente) fuente.setData({ type: "FeatureCollection", features: [] });
+    });
+    requestAnimationFrame(latir);
     document.getElementById("btn-png").disabled = false;
     document.getElementById("btn-jpg").disabled = false;
   } catch (error) {
     document.getElementById("ficha").innerHTML = `<p>No se pudieron leer los datos (${error.message}). Sirve el sitio con un servidor local.</p>`;
   }
 });
+
+function aparecer(id) {
+  if (!mapa.getLayer(id)) return;
+  const esLinea = mapa.getLayer(id).type === "line";
+  const prop = esLinea ? "line-opacity" : "fill-opacity";
+  const destino = mapa.getPaintProperty(id, prop);
+  if (window.vida?.reducido || typeof destino !== "number") return;
+  const inicio = performance.now();
+  mapa.setPaintProperty(id, prop, 0);
+  function frame(ahora) {
+    const t = Math.min(1, (ahora - inicio) / 800);
+    mapa.setPaintProperty(id, prop, destino * t);
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+let pulsoActivo = false;
+let idPulso = null;
+function latir(ahora) {
+  if (pulsoActivo && mapa.getLayer("anp-hover") && !window.vida?.reducido) {
+    mapa.setPaintProperty("anp-hover", "line-width", 2 + Math.sin(ahora / 180) * 1.4);
+  }
+  requestAnimationFrame(latir);
+}
 
 function estilo(id) {
   if (id === "anp-federales") {
@@ -203,6 +289,9 @@ mapa.on("click", (evento) => {
     return;
   }
   ficha.innerHTML = fichaDe(hallados[0].layer.id, hallados[0].properties);
+  ficha.classList.remove("entra");
+  void ficha.offsetWidth;
+  ficha.classList.add("entra");
 });
 
 estadoSelect.addEventListener("change", aplicarFiltros);

@@ -1,3 +1,10 @@
+const HABITATS = {
+  "esp-01": "selva",
+  "esp-02": "laguna",
+  "esp-03": "mar",
+  "esp-04": "bahia",
+};
+
 function especieDe(fila) {
   return {
     id: fila.id,
@@ -13,25 +20,70 @@ function especieDe(fila) {
 }
 
 const visor = document.getElementById("visor");
+const marco = document.getElementById("marco-visor");
 const ficha = document.getElementById("ficha");
 const menu = document.getElementById("especies");
 let actual = null;
+let cambiando = false;
 
-function mostrar(especie) {
+function esperar(ms) {
+  return new Promise((resolver) => window.setTimeout(resolver, ms));
+}
+
+async function mostrar(especie) {
+  if (cambiando) return;
+  cambiando = true;
+  const reducido = window.vida?.reducido;
+  if (actual && !reducido) {
+    visor.style.opacity = "0";
+    await esperar(280);
+  }
   actual = especie;
   visor.setAttribute("src", especie.modelo);
   visor.alt = `Modelo tridimensional ilustrativo de ${especie.nombre}`;
+  marco.dataset.habitat = HABITATS[especie.id] || "selva";
+  const nivel = especie.clase === "amenazada" ? 58 : 88;
   ficha.innerHTML = `
     <p class="ceja">${especie.cientifico}</p>
     <h2>${especie.nombre}</h2>
-    <p><span class="estado-riesgo ${especie.clase}">${especie.riesgo}</span></p>
-    <p>${especie.lugar}</p>
-    <p class="nota">${especie.nota}</p>
-    <p class="nota">Modelo: ${especie.credito} Estatus: NOM-059-SEMARNAT-2010.</p>
+    <div class="medidor">
+      <div class="medidor-pista" aria-hidden="true"><i class="medidor-relleno ${especie.clase}"></i></div>
+      <p><span class="estado-riesgo ${especie.clase}">${especie.riesgo}</span></p>
+    </div>
+    <button type="button" class="coleccion" aria-pressed="false">
+      <span class="coleccion-inner">
+        <span class="frente">
+          <strong>Dónde vive</strong>
+          <p>${especie.lugar}</p>
+          <p class="nota">Toca para voltear la ficha</p>
+        </span>
+        <span class="reverso">
+          <strong>La ficha</strong>
+          <p>${especie.nota}</p>
+          <p class="nota">Modelo: ${especie.credito} Estatus: NOM-059-SEMARNAT-2010.</p>
+        </span>
+      </span>
+    </button>
   `;
+  const barra = ficha.querySelector(".medidor-relleno");
+  requestAnimationFrame(() => {
+    barra.style.width = `${nivel}%`;
+  });
+  ficha.querySelector(".coleccion").addEventListener("click", (evento) => {
+    const boton = evento.currentTarget;
+    const vuelta = boton.classList.toggle("volteada");
+    boton.setAttribute("aria-pressed", vuelta ? "true" : "false");
+  });
   menu.querySelectorAll("button").forEach((boton) => {
     boton.setAttribute("aria-pressed", boton.dataset.id === especie.id ? "true" : "false");
   });
+  visor.style.opacity = "1";
+  if (!reducido) {
+    visor.setAttribute("camera-orbit", "40deg 80deg 140%");
+    await esperar(40);
+    visor.setAttribute("camera-orbit", "0deg 75deg 105%");
+  }
+  cambiando = false;
 }
 
 async function iniciar() {
