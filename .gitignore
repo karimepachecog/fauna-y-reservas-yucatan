@@ -5,3 +5,7 @@ __pycache__/
 .DS_Store
 backend/db.sqlite3
 staticfiles/
+
+# El data lake se lee en local al cargar Mongo. No se sube.
+datos/*
+!datos/.gitkeep

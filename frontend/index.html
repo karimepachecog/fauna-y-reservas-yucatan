@@ -11,46 +11,23 @@
   <link rel="stylesheet" href="css/vida.css" />
 </head>
 <body>
-  <header class="hero" data-parallax>
-    <div class="capa cielo-hero" data-vel="0.05"></div>
-    <div class="capa piramide-hero" data-vel="0.12" aria-hidden="true">
-      <svg viewBox="0 0 1200 700" width="100%" height="100%">
-        <g fill="#c4863a" opacity="0.9">
-          <rect x="585" y="300" width="30" height="28" />
-          <rect x="520" y="328" width="160" height="32" />
-          <rect x="455" y="360" width="290" height="36" />
-          <rect x="370" y="396" width="460" height="42" />
-          <rect x="260" y="438" width="680" height="52" />
-        </g>
-      </svg>
-    </div>
-    <div class="capa selva-hero" data-vel="0.2" aria-hidden="true">
-      <img src="img/mangle.svg" alt="" />
-      <img src="img/ceiba.svg" alt="" />
-    </div>
-    <div class="capa cenote-boca" aria-hidden="true"></div>
-    <div class="capa agua-hero" data-vel="0.34"></div>
-    <div class="vuelo" aria-hidden="true">
-      <img class="colibri" src="img/colibri.svg" alt="" style="top: 18%; animation-duration: 9s" />
-      <img class="mariposa-hero" src="img/mariposa.svg" alt="" style="top: 32%; width: 48px; animation-duration: 13s; animation-delay: -4s" />
-      <img class="colibri" src="img/colibri.svg" alt="" style="top: 12%; animation-duration: 12s; animation-delay: -6s" />
-    </div>
+  <header class="hero">
+    <img class="foto-hero" src="img/selva-calakmul.jpg" alt="Selva de la Reserva de la Biosfera Calakmul, en Campeche, con la acrópolis al fondo" />
+    <div class="velo-hero" aria-hidden="true"></div>
     <div class="hero-texto">
-      <p class="ceja">Tres piezas · Campeche, Yucatán y Quintana Roo</p>
+      <p class="ceja">Campeche, Yucatán y Quintana Roo</p>
       <h1 data-letras>Fauna y reservas de la península de Yucatán</h1>
       <p class="lead">Dónde está protegido el territorio, qué corre bajo Yucatán entre el acuífero y sus reservas, y cuatro especies para poner, en realidad aumentada, sobre la mesa.</p>
       <p class="baja">Baja a elegir una pieza</p>
     </div>
+    <p class="credito-foto">Selva de Calakmul, Campeche.<br />Foto: <a href="https://commons.wikimedia.org/wiki/File:Un_mar_de_vegetaci%C3%B3n.jpg">Norberto Fotografía Negrete</a>, <span class="licencia">CC BY-SA 3.0</span>.</p>
   </header>
   <main class="envoltorio portada">
     <div class="tarjetas">
       <a class="tarjeta" data-inclinar href="mapa/">
         <p class="ceja">CONABIO · INEGI</p>
         <div class="portal-icono" aria-hidden="true">
-          <svg class="pin" width="36" height="48" viewBox="0 0 36 48">
-            <path fill="#c4543a" d="M18 0 C8 0 2 8 2 16 C2 28 18 48 18 48 C18 48 34 28 34 16 C34 8 28 0 18 0 Z"/>
-            <circle cx="18" cy="16" r="6" fill="#fffdf8"/>
-          </svg>
+          <img src="img/iconos/arbol-de-la-vida.png" alt="" width="72" height="72" />
         </div>
         <strong>Dónde se cuida la península</strong>
         <p>Mapa de áreas protegidas, manglares y sitios prioritarios. Se puede filtrar por estado y exportar la vista.</p>
@@ -59,11 +36,7 @@
       <a class="tarjeta" data-inclinar href="siegy/">
         <p class="ceja">SIEGY · SDS Yucatán</p>
         <div class="portal-icono" aria-hidden="true">
-          <span class="gota"></span>
-          <svg width="54" height="28" viewBox="0 0 54 28">
-            <ellipse cx="27" cy="16" rx="24" ry="8" fill="#145e68"/>
-            <ellipse cx="27" cy="14" rx="16" ry="5" fill="#0b3d45"/>
-          </svg>
+          <img src="img/iconos/cenote.png" alt="" width="84" height="58" />
         </div>
         <strong>Yucatán, al lado de sus reservas</strong>
         <p>Baja bajo la selva: el acuífero se llena, se encienden más de 2,000 cenotes y las nueve reservas flotan.</p>
@@ -72,15 +45,14 @@
       <a class="tarjeta" data-inclinar href="ar/">
         <p class="ceja">Realidad aumentada · NOM-059</p>
         <div class="portal-icono" aria-hidden="true">
-          <img src="img/jaguar.svg" alt="" width="78" height="40" />
-          <span class="ojos"><i></i><i style="animation-delay: .1s"></i></span>
+          <img src="img/iconos/leopardo.png" alt="" width="108" height="56" />
         </div>
         <strong>La fauna de la península, en tu espacio</strong>
         <p>Jaguar, flamenco, tortuga marina y manatí, con su estatus de riesgo y un modelo para ver en el teléfono.</p>
         <span>Abrir la galería</span>
       </a>
     </div>
-    <p class="fuentes">Cada pieza usa una fuente primaria distinta y una secundaria distinta. Las capas de CONABIO se publican bajo la licencia CC BY-NC 2.5 MX: no tienen fin de lucro y hay que citar la fuente.</p>
+    <p class="fuentes">Cada pieza usa una fuente primaria distinta y una secundaria distinta. Las capas de CONABIO se publican bajo la licencia CC BY-NC 2.5 MX, sin fin de lucro.</p>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>

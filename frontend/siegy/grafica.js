@@ -267,8 +267,7 @@ function tocar(reserva, boton) {
   document.querySelectorAll(".burbuja").forEach((otro) => otro.classList.remove("abierta"));
   boton.classList.add("abierta");
   boton.setAttribute("aria-pressed", "true");
-  const ha = Number(reserva.hectareas);
-  globo.textContent = `${reserva.nombre} es ${reserva.categoria.toLowerCase()}, con ${ha.toLocaleString("es-MX")} ha. Decreto del ${fechaLarga(reserva.fecha_decreto)}.`;
+  globo.textContent = textoDecreto(reserva);
   for (let i = 0; i < 6; i += 1) {
     const chispa = document.createElement("span");
     chispa.className = "chispa";
@@ -303,6 +302,77 @@ function escribirTextos() {
     barra.innerHTML = "<i></i><i></i><i></i><i></i><i></i><i></i>";
     paso.prepend(barra);
   });
+}
+
+function partir(items, x, y, ancho, alto, vertical) {
+  if (!items.length) return [];
+  if (items.length === 1) return [{ ...items[0], x, y, ancho, alto }];
+  const total = items.reduce((suma, item) => suma + item.ha, 0);
+  let acumulado = 0;
+  let corte = 1;
+  for (let i = 0; i < items.length - 1; i += 1) {
+    acumulado += items[i].ha;
+    corte = i + 1;
+    if (acumulado >= total / 2) break;
+  }
+  const primero = items.slice(0, corte);
+  const resto = items.slice(corte);
+  const fraccion = primero.reduce((suma, item) => suma + item.ha, 0) / total;
+  if (vertical) {
+    const anchoPrimero = ancho * fraccion;
+    return [
+      ...partir(primero, x, y, anchoPrimero, alto, false),
+      ...partir(resto, x + anchoPrimero, y, ancho - anchoPrimero, alto, false),
+    ];
+  }
+  const altoPrimero = alto * fraccion;
+  return [
+    ...partir(primero, x, y, ancho, altoPrimero, true),
+    ...partir(resto, x, y + altoPrimero, ancho, alto - altoPrimero, true),
+  ];
+}
+
+function textoDecreto(reserva) {
+  const ha = Number(reserva.hectareas);
+  return `${reserva.nombre} es ${reserva.categoria.toLowerCase()}, con ${ha.toLocaleString("es-MX")} ha. Decreto del ${fechaLarga(reserva.fecha_decreto)}.`;
+}
+
+function pintarTreemap() {
+  const lienzo = document.getElementById("treemap");
+  const detalle = document.getElementById("detalle-treemap");
+  if (!lienzo) return;
+  const ancho = lienzo.clientWidth;
+  const alto = lienzo.clientHeight;
+  if (ancho < 20 || alto < 20) return;
+  const orden = reservas
+    .map((reserva) => ({ ...reserva, ha: Number(reserva.hectareas) }))
+    .sort((a, b) => b.ha - a.ha);
+  const total = orden.reduce((suma, reserva) => suma + reserva.ha, 0);
+  document.getElementById("total-treemap").textContent = `${numero(total)} ha en total`;
+  const celdas = partir(orden, 0, 0, ancho, alto, ancho >= alto);
+  const margen = 3;
+  lienzo.innerHTML = "";
+  for (const celda of celdas) {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = `celda-reserva ${celda.zona === "Costa" ? "costa" : "interior"}`;
+    boton.style.left = `${celda.x + margen}px`;
+    boton.style.top = `${celda.y + margen}px`;
+    boton.style.width = `${Math.max(0, celda.ancho - margen * 2)}px`;
+    boton.style.height = `${Math.max(0, celda.alto - margen * 2)}px`;
+    const etiqueta = `${celda.nombre}, ${numero(celda.ha)} hectáreas, zona ${celda.zona}`;
+    boton.setAttribute("aria-label", etiqueta);
+    boton.title = etiqueta;
+    if (celda.ancho > 88 && celda.alto > 48) {
+      boton.innerHTML = `<strong>${celda.nombre}</strong><em>${numero(celda.ha)} ha</em>`;
+    }
+    boton.addEventListener("click", () => {
+      lienzo.querySelectorAll(".celda-reserva").forEach((otro) => otro.setAttribute("aria-pressed", "false"));
+      boton.setAttribute("aria-pressed", "true");
+      detalle.textContent = textoDecreto(celda);
+    });
+    lienzo.appendChild(boton);
+  }
 }
 
 function tabla() {
@@ -385,11 +455,13 @@ async function iniciar() {
   tabla();
   medir();
   pintarReservas();
+  pintarTreemap();
   cuadro();
   engancharScroll();
   window.addEventListener("resize", () => {
     medir();
     pintarReservas();
+    pintarTreemap();
     dibujarPuntos(performance.now());
   });
 }

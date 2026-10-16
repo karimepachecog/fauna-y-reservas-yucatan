@@ -64,12 +64,23 @@ function letras(elemento) {
   const texto = elemento.textContent;
   elemento.textContent = "";
   elemento.dataset.letras = "1";
-  [...texto].forEach((caracter, indice) => {
-    const span = document.createElement("span");
-    span.className = "letra";
-    if (!REDUCIDO) span.style.animationDelay = `${indice * 0.028}s`;
-    span.textContent = caracter === " " ? "\u00a0" : caracter;
-    elemento.appendChild(span);
+  let indice = 0;
+  texto.split(" ").forEach((palabra, i, palabras) => {
+    const grupo = document.createElement("span");
+    grupo.className = "palabra";
+    [...palabra].forEach((caracter) => {
+      const span = document.createElement("span");
+      span.className = "letra";
+      if (!REDUCIDO) span.style.animationDelay = `${indice * 0.028}s`;
+      span.textContent = caracter;
+      grupo.appendChild(span);
+      indice += 1;
+    });
+    elemento.appendChild(grupo);
+    if (i < palabras.length - 1) {
+      elemento.appendChild(document.createTextNode(" "));
+      indice += 1;
+    }
   });
 }
 
@@ -122,12 +133,6 @@ function montarCapa() {
     capa.appendChild(luz);
   }
 
-  const jaguar = document.createElement("img");
-  jaguar.src = urlImagen("jaguar.svg");
-  jaguar.alt = "";
-  jaguar.className = "jaguar-pasa";
-  capa.appendChild(jaguar);
-
   document.body.appendChild(capa);
   document.addEventListener("visibilitychange", () => {
     capa.classList.toggle("pausada", document.hidden);
@@ -161,8 +166,25 @@ function inclinar() {
   });
 }
 
+function montarLottie() {
+  if (!window.lottie) return;
+  document.querySelectorAll("[data-lottie]").forEach((nodo) => {
+    const animacion = window.lottie.loadAnimation({
+      container: nodo,
+      renderer: "svg",
+      loop: !REDUCIDO,
+      autoplay: !REDUCIDO,
+      path: new URL(nodo.dataset.lottie, BASE).href,
+    });
+    if (REDUCIDO) {
+      animacion.addEventListener("DOMLoaded", () => animacion.goToAndStop(0, true));
+    }
+  });
+}
+
 function iniciar() {
   montarCapa();
+  montarLottie();
   document.querySelectorAll("[data-letras]").forEach(letras);
   parallax();
   inclinar();

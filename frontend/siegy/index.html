@@ -27,6 +27,10 @@
       <div class="columna-escena">
         <div class="escena" id="lamina" data-paso="superficie">
           <div class="cielo-escena"></div>
+          <div class="guacamaya-cielo" data-lottie="animaciones/loro.json" aria-hidden="true"></div>
+          <div class="pasto-suelo" aria-hidden="true">
+            <div class="anim-pasto" data-lottie="animaciones/pasto.json"></div>
+          </div>
           <img class="arbol mangle" src="/img/mangle.svg" alt="" />
           <img class="arbol ceiba" src="/img/ceiba.svg" alt="" />
           <div class="suelo"></div>
@@ -78,6 +82,18 @@
         </section>
       </div>
     </div>
+    <section class="treemap-bloque" aria-labelledby="titulo-treemap">
+      <p class="ceja">Las mismas nueve reservas</p>
+      <h2 id="titulo-treemap">El tamaño es la superficie</h2>
+      <p class="nota">Cada rectángulo es una reserva y su área son las hectáreas. Turquesa: costa. Verde: interior.</p>
+      <div class="leyenda-zona">
+        <span><i class="muestra costa"></i>Costa</span>
+        <span><i class="muestra interior"></i>Interior</span>
+        <span id="total-treemap"></span>
+      </div>
+      <div id="treemap" class="treemap" role="group" aria-label="Treemap de reservas estatales por hectáreas"></div>
+      <p id="detalle-treemap" class="detalle">Toca un rectángulo para ver su decreto.</p>
+    </section>
     <table class="sr-only" id="tabla-reservas">
       <caption>Reservas estatales de Yucatán</caption>
       <thead>
@@ -87,6 +103,7 @@
     </table>
     <p class="fuentes">Primaria: Sistema de Información Estadística y Geográfica de Yucatán (SIEGY, antes SIEGI), <a href="https://datos.yucatan.gob.mx/storage/boletines/archivos/2026/Boletin_2026_03.pdf">Boletín 3, 2026</a>, Día Mundial del Agua. El acuífero lo toma de CONAGUA 2020 y los cenotes, de la Secretaría de Desarrollo Sustentable. Secundaria: la misma secretaría, <a href="https://sds.yucatan.gob.mx/areas-naturales/sanpy.php">Sistema de Áreas Naturales Protegidas del Estado</a>, cifras publicadas con corte SDS 2019. El arco geológico: <a href="https://rsis.ramsar.org/ris/2043">ficha Ramsar del Anillo de Cenotes</a> y <a href="https://whc.unesco.org/en/tentativelists/5784/">lista tentativa de UNESCO</a>.</p>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>

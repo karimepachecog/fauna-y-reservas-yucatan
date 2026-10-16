@@ -75,14 +75,6 @@
   animation: brillar 2.8s ease-in-out infinite;
 }
 
-.jaguar-pasa {
-  position: absolute;
-  bottom: 8px;
-  width: 110px;
-  height: 56px;
-  animation: cruzar 26s linear infinite;
-}
-
 @keyframes mecer {
   0%, 100% { transform: rotate(-6deg); }
   50% { transform: rotate(7deg); }
@@ -102,12 +94,6 @@
 @keyframes brillar {
   0%, 100% { opacity: 0.2; transform: scale(0.7); }
   50% { opacity: 1; transform: scale(1); }
-}
-
-@keyframes cruzar {
-  0% { transform: translateX(-30vw); }
-  14% { transform: translateX(110vw); }
-  100% { transform: translateX(110vw); }
 }
 
 @keyframes ondular {
@@ -160,6 +146,8 @@
   animation: caer-letra 0.55s both;
 }
 
+.palabra { white-space: nowrap; }
+
 .hero {
   position: relative;
   min-height: 100svh;
@@ -167,7 +155,47 @@
   align-items: end;
   overflow: hidden;
   color: #f4efe4;
-  background: #0c3140;
+  background: #123c28;
+}
+
+.foto-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 68%;
+}
+
+.velo-hero {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(8, 28, 22, 0.78) 0%, rgba(8, 28, 22, 0.38) 46%, rgba(8, 28, 22, 0.16) 100%);
+}
+
+.credito-foto {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.7rem;
+  z-index: 2;
+  margin: 0;
+  width: max-content;
+  max-width: 36ch;
+  text-align: right;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: rgba(244, 239, 228, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+.credito-foto a { color: #f2d48a; }
+.licencia { white-space: nowrap; }
+
+.portal-icono img {
+  width: auto;
+  max-width: 108px;
+  max-height: 72px;
+  object-fit: contain;
 }
 
 .hero .capa {
@@ -257,7 +285,7 @@
 }
 
 .portal-icono {
-  height: 54px;
+  height: 78px;
   display: flex;
   align-items: flex-end;
 }
@@ -299,6 +327,12 @@ body.noche a { color: #9be7ef; }
 body.noche .lead,
 body.noche .nota,
 body.noche .fuentes { color: #c5ddd6; }
+
+body.noche .detalle {
+  background: #0c3338;
+  color: #f4efe4;
+  border: 1px solid rgba(155, 231, 239, 0.28);
+}
 
 body.noche .paso {
   background: rgba(8, 40, 46, 0.72);
@@ -342,6 +376,78 @@ body.noche .paso {
   height: auto;
   transform-origin: bottom center;
   animation: mecer 5s ease-in-out infinite;
+  z-index: 5;
+}
+
+.guacamaya-cielo,
+.guacamaya-habitat,
+.pasto-suelo,
+.pasto-habitat,
+.anim-pasto {
+  position: absolute;
+  pointer-events: none;
+}
+
+.guacamaya-cielo,
+.guacamaya-habitat {
+  top: 8%;
+  left: 0;
+  width: 68px;
+  aspect-ratio: 793 / 835;
+  z-index: 4;
+  animation: pasa-cielo 34s linear infinite;
+}
+
+.guacamaya-habitat { width: 56px; top: 10%; animation-delay: -8s; }
+
+.pasto-suelo {
+  left: 30%;
+  width: 26%;
+  top: 16%;
+  height: 22%;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.pasto-suelo .anim-pasto {
+  left: 0;
+  width: 100%;
+  bottom: -55%;
+  aspect-ratio: 881 / 774;
+}
+
+.escena:not([data-paso="superficie"]) .guacamaya-cielo,
+.escena:not([data-paso="superficie"]) .pasto-suelo {
+  opacity: 0;
+}
+
+.pasto-habitat,
+.guacamaya-habitat { display: none; }
+
+.visor[data-habitat="selva"] .pasto-habitat,
+.visor[data-habitat="selva"] .guacamaya-habitat { display: block; }
+
+.pasto-habitat {
+  left: 8%;
+  width: 70%;
+  bottom: -52%;
+  aspect-ratio: 881 / 774;
+}
+
+.guacamaya-cielo svg,
+.guacamaya-habitat svg,
+.anim-pasto svg,
+.pasto-habitat svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pasa-cielo {
+  0%, 74% { transform: translate3d(-40vw, 0, 0); opacity: 0; }
+  78% { opacity: 1; }
+  90% { transform: translate3d(78vw, -3vh, 0); opacity: 1; }
+  94%, 100% { transform: translate3d(88vw, -4vh, 0); opacity: 0; }
 }
 
 .arbol.mangle { left: 4%; }
@@ -538,6 +644,38 @@ body.noche .paso {
 
 .pasos { display: flex; flex-direction: column; gap: 8vh; padding: 6vh 0 18vh; }
 .paso { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; }
+.treemap-bloque { margin: 2.2rem 0 0.4rem; }
+.treemap-bloque h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0.2rem 0 0.5rem; }
+.leyenda-zona { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin: 0.6rem 0; font-size: 0.92rem; }
+.leyenda-zona .muestra.costa { background: #145e68; }
+.leyenda-zona .muestra.interior { background: #1c6848; }
+.treemap {
+  position: relative;
+  height: min(68vh, 520px);
+  min-height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #06262c;
+}
+.celda-reserva {
+  position: absolute;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  line-height: 1.15;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #f4efe4;
+}
+.celda-reserva.costa { background: #145e68; }
+.celda-reserva.interior { background: #1c6848; }
+.celda-reserva strong { font-size: 0.95rem; }
+.celda-reserva em { font-style: normal; font-size: 0.78rem; font-variant-numeric: tabular-nums; opacity: 0.9; }
+.celda-reserva[aria-pressed="true"] { outline: 3px solid var(--ambar); outline-offset: -3px; }
 .paso h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0.2rem 0 0.6rem; }
 .cifra { font-variant-numeric: tabular-nums; color: var(--ambar); }
 
@@ -658,10 +796,12 @@ body.noche .medidor-pista { background: rgba(255, 255, 255, 0.16); }
   .columna-escena { height: 52svh; top: 0; z-index: 2; }
   .paso { min-height: 68vh; }
   .selva-hero img { width: 34vw; }
+  .hero-texto { margin-bottom: 14vh; }
+  .credito-foto { left: 1rem; right: auto; max-width: calc(100% - 2rem); text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vida-capa { display: none; }
+  .vida-capa, .guacamaya-cielo, .guacamaya-habitat { display: none; }
   .letra, .baja, .pin, .gota, .ojos i, .burbuja, .arbol, .ola, .habitat, .barra::after {
     animation: none !important;
   }

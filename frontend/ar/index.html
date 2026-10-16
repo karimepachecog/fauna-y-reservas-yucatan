@@ -29,7 +29,10 @@
       <div class="especies" id="especies"></div>
       <div>
         <div class="visor" id="marco-visor" data-habitat="selva">
-          <div class="habitat" aria-hidden="true"></div>
+          <div class="habitat" aria-hidden="true">
+            <div class="guacamaya-habitat" data-lottie="animaciones/loro.json"></div>
+            <div class="pasto-habitat" data-lottie="animaciones/pasto.json"></div>
+          </div>
           <model-viewer id="visor" camera-controls touch-action="pan-y" auto-rotate shadow-intensity="1" exposure="1.05" ar ar-modes="webxr scene-viewer quick-look" alt="Modelo tridimensional de la especie seleccionada"></model-viewer>
         </div>
         <article class="ficha-ar" id="ficha"></article>
@@ -37,6 +40,7 @@
     </div>
     <p class="fuentes">El estatus de riesgo sale de la NOM-059-SEMARNAT-2010. Los modelos se citan en cada ficha: flamenco de Risa Pizza (CC BY 3.0), jaguar y manatí de Poly by Google (CC BY) y tortuga de marioba (CC BY 3.0), vía Poly Pizza.</p>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
   <script src="../js/exportar.js"></script>
   <script src="../js/vida.js"></script>
   <script src="galeria.js"></script>
