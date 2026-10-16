@@ -1,0 +1,291 @@
+:root {
+  --ink: #17241e;
+  --ink-soft: #42564c;
+  --paper: #f3efe6;
+  --paper-2: #fffdf8;
+  --line: #ddd3c3;
+  --mangrove: #1c6848;
+  --mangrove-deep: #103d2c;
+  --cenote: #145e68;
+  --sand: #e8dcc6;
+  --coral: #c4543a;
+  --gold: #a87428;
+  --shadow: 0 16px 40px rgba(23, 36, 30, 0.08);
+  --serif: "Fraunces", "Iowan Old Style", Palatino, serif;
+  --sans: "Source Sans 3", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+a { color: var(--cenote); }
+
+button, select, input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: var(--mangrove-deep);
+  color: #f6f3ec;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+
+button.secundario {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+button[aria-pressed="true"] {
+  background: var(--mangrove);
+  color: white;
+  border-color: transparent;
+}
+
+button:disabled { opacity: 0.45; cursor: wait; }
+
+.ceja {
+  margin: 0 0 0.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 560; letter-spacing: -0.02em; }
+
+h1 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.05; margin: 0; }
+
+.barra {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem 1.3rem 0.9rem;
+  background: var(--mangrove-deep);
+  color: #f4efe4;
+}
+
+.barra a { color: #e7d7a2; text-decoration: none; font-weight: 700; }
+
+.barra .ceja { color: #e7d7a2; }
+
+.barra h1 { font-size: clamp(1.45rem, 2.4vw, 2.1rem); }
+
+.acciones { display: flex; gap: 0.45rem; flex-shrink: 0; }
+
+.acciones button { background: #f4efe4; color: var(--mangrove-deep); }
+
+.envoltorio { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+
+.portada { padding: 2.2rem 0 3rem; }
+
+.portada h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); max-width: 16ch; }
+
+.lead { font-size: 1.15rem; max-width: 62ch; color: var(--ink-soft); }
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.6rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.1rem 1.15rem 1.2rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  min-height: 240px;
+}
+
+.tarjeta:hover { border-color: var(--mangrove); }
+
+.tarjeta strong { font-family: var(--serif); font-size: 1.45rem; font-weight: 560; }
+
+.tarjeta span { margin-top: auto; font-weight: 700; color: var(--cenote); }
+
+.fuentes {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.pagina-mapa {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapa-app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.panel {
+  padding: 0.9rem 1rem 1.2rem;
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+  overflow: auto;
+}
+
+.panel h2 { font-size: 1.15rem; margin: 0.2rem 0 0.6rem; }
+
+.campo { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.7rem; font-size: 0.92rem; }
+
+.campo input, .campo select {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.4rem 0.55rem;
+}
+
+.capas { display: flex; flex-direction: column; gap: 0.35rem; margin: 0.3rem 0 0.8rem; }
+
+.capas label {
+  display: flex;
+  gap: 0.45rem;
+  align-items: flex-start;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.92rem;
+}
+
+.leyenda { display: flex; flex-wrap: wrap; gap: 0.35rem 0.7rem; font-size: 0.82rem; color: var(--ink-soft); }
+
+.muestra { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 2px; margin-right: 0.25rem; vertical-align: -1px; }
+
+#mapa { min-height: 0; height: 100%; }
+
+.ficha-mapa {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.7rem 0.75rem;
+  margin-top: 0.7rem;
+  min-height: 4.5rem;
+}
+
+.ficha-mapa p { margin: 0.2rem 0; }
+
+.stats { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+
+.stats th, .stats td { text-align: left; padding: 0.28rem 0.2rem; border-bottom: 1px solid var(--line); }
+
+.nota { color: var(--ink-soft); font-size: 0.82rem; }
+
+.pagina { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: 1.2rem 0 2.5rem; }
+
+.lamina {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1rem;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.indicadores { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 0.8rem; }
+
+.grafica { width: 100%; height: auto; }
+
+.detalle {
+  background: var(--sand);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  margin-top: 0.6rem;
+}
+
+.grupo { margin-top: 0.8rem; }
+
+.barra-reserva {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) 1.4fr auto;
+  gap: 0.45rem;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.2rem 0;
+}
+
+.pista { background: #efe7d8; border-radius: 999px; height: 10px; overflow: hidden; }
+
+.relleno { display: block; height: 100%; background: var(--mangrove); border-radius: 999px; }
+
+.relleno.costa { background: var(--cenote); }
+
+.ha { font-variant-numeric: tabular-nums; font-size: 0.82rem; color: var(--ink-soft); }
+
+.ar-app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.especies { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.especies button { text-align: left; border-radius: 12px; }
+
+.visor {
+  background: linear-gradient(180deg, #d7ebe4 0%, #f7f3ea 70%);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  min-height: 460px;
+  overflow: hidden;
+}
+
+model-viewer { width: 100%; height: 520px; background: transparent; }
+
+.ficha-ar h2 { margin-bottom: 0.2rem; }
+
+.estado-riesgo {
+  display: inline-block;
+  background: var(--coral);
+  color: white;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.estado-riesgo.amenazada { background: var(--gold); }
+
+@media (max-width: 900px) {
+  .tarjetas, .lamina, .ar-app, .mapa-app { grid-template-columns: 1fr; }
+  .barra { flex-wrap: wrap; }
+  .pagina-mapa { height: auto; overflow: auto; display: block; }
+  #mapa { height: 70vh; }
+  model-viewer { height: 380px; }
+}

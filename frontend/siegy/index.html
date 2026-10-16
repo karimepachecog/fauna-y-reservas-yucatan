@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yucatán, al lado de sus reservas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/estilos.css" />
+</head>
+<body>
+  <header class="barra">
+    <a href="../index.html">Península</a>
+    <div>
+      <p class="ceja">Fuente primaria: SIEGY · secundaria: SDS Yucatán</p>
+      <h1>Yucatán, al lado de sus reservas</h1>
+    </div>
+    <div class="acciones">
+      <button id="btn-png" type="button">PNG</button>
+      <button id="btn-jpg" type="button">JPG</button>
+    </div>
+  </header>
+  <main class="pagina">
+    <p class="lead">El boletín 3 del SIEGY (2026) ubica bajo la península el acuífero más grande de México, de más de 100,000 km², y más de 2,000 cenotes en Yucatán. Al lado, las nueve reservas del sistema estatal ocupan 535,245 hectáreas: 14% del estado.</p>
+    <section class="lamina" id="lamina">
+      <div>
+        <p class="ceja">SIEGY · Boletín 3, 2026</p>
+        <h2>El agua bajo las reservas</h2>
+        <div class="indicadores" id="indicadores"></div>
+        <svg id="grafica" class="grafica" viewBox="0 0 640 250" role="img"></svg>
+        <div class="detalle" id="detalle"></div>
+      </div>
+      <div>
+        <p class="ceja">SDS · Sistema estatal SANPY</p>
+        <h2>Nueve reservas, costa e interior</h2>
+        <p class="nota">171,747 ha en la costa y 363,498 ha tierra adentro. Pulsa una reserva para ver su decreto.</p>
+        <div id="reservas"></div>
+        <p class="detalle" id="reserva-detalle">La costa reúne Dzilam, El Palmar y las ciénagas y manglares del norte.</p>
+      </div>
+    </section>
+    <p class="fuentes">Primaria: Sistema de Información Estadística y Geográfica de Yucatán (SIEGY, antes SIEGI), <a href="https://datos.yucatan.gob.mx/storage/boletines/archivos/2026/Boletin_2026_03.pdf">Boletín 3, 2026</a>, Día Mundial del Agua. El acuífero lo toma de CONAGUA 2020 y los cenotes, de la Secretaría de Desarrollo Sustentable. Secundaria: la misma secretaría, <a href="https://sds.yucatan.gob.mx/areas-naturales/sanpy.php">Sistema de Áreas Naturales Protegidas del Estado</a>, cifras publicadas con corte SDS 2019.</p>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <script src="../js/exportar.js"></script>
+  <script src="grafica.js"></script>
+</body>
+</html>

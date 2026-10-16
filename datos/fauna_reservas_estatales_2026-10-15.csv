@@ -1,0 +1,10 @@
+﻿id,nombre,categoria,hectareas,zona,fecha_decreto
+res-01,Dzilam,Reserva estatal,69039.29,Costa,1989-01-24
+res-02,El Palmar,Reserva estatal,47931.45,Costa,1990-01-29
+res-03,Ciénagas y manglares de la costa norte,Reserva estatal,54776.73,Costa,2010-03-19
+res-04,Anillo de Cenotes,Reserva estatal geohidrológica,219207.83,Interior,2013-10-19
+res-05,Biocultural del Puuc,Reserva estatal,135848.85,Interior,2011-11-01
+res-06,Lagunas de Yalahau,Parque estatal,5683.28,Interior,1999-06-08
+res-07,San Juan Bautista Tabi y Anexa Sacnité,"Valor escénico, histórico y cultural",1355.74,Interior,1994-06-07
+res-08,Kabah,Parque estatal,949.76,Interior,1993-06-09
+res-09,Ich Kool Balamtun,Parque estatal,452.32,Interior,2017-08-31

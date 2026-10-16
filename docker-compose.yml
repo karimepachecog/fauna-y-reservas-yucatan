@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_datos:/data/db
+  web:
+    build: .
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: datos
+      DJANGO_DEBUG: "1"
+      ALLOWED_HOSTS: "*"
+    volumes:
+      - ./datos:/app/datos:ro
+      - ./frontend:/app/frontend:ro
+
+volumes:
+  mongo_datos:

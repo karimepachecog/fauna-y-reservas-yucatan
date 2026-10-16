@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dónde se cuida la península</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/estilos.css" />
+</head>
+<body class="pagina-mapa">
+  <header class="barra">
+    <a href="../index.html">Península</a>
+    <div>
+      <p class="ceja">Fuente primaria: CONABIO · secundaria: INEGI</p>
+      <h1>Dónde se cuida la península</h1>
+    </div>
+    <div class="acciones">
+      <button id="btn-png" type="button" disabled>PNG</button>
+      <button id="btn-jpg" type="button" disabled>JPG</button>
+    </div>
+  </header>
+  <div class="mapa-app">
+    <aside class="panel">
+      <h2>Qué mostrar</h2>
+      <div class="capas" id="capas"></div>
+      <label class="campo">Estado
+        <select id="estado">
+          <option value="todas">Los tres estados</option>
+          <option>Campeche</option>
+          <option>Yucatán</option>
+          <option>Quintana Roo</option>
+        </select>
+      </label>
+      <label class="campo">Categoría federal
+        <select id="categoria">
+          <option value="todas">Todas</option>
+          <option value="RB">Reserva de la biosfera</option>
+          <option value="PN">Parque nacional</option>
+          <option value="APFF">Protección de flora y fauna</option>
+          <option value="SANT">Santuario</option>
+        </select>
+      </label>
+      <label class="campo">Buscar por nombre
+        <input id="busqueda" type="search" placeholder="Calakmul, Celestún…" />
+      </label>
+      <div class="leyenda" id="leyenda"></div>
+      <div class="ficha-mapa" id="ficha"><p class="nota">Elige un polígono para ver su ficha.</p></div>
+      <h2>Hectáreas terrestres por habitante</h2>
+      <div id="stats"></div>
+      <p class="nota">La población es la suma municipal del Censo de Población y Vivienda 2020. Las hectáreas son la intersección de cada polígono con el marco estatal, así que miden la porción terrestre. El cambio de manglar se dibuja para toda la costa peninsular.</p>
+      <p class="nota">CONABIO, CC BY-NC 2.5 MX. Límites y población: INEGI, Marco Geoestadístico, diciembre de 2025, y Censo 2020.</p>
+    </aside>
+    <div id="mapa"></div>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="../js/exportar.js"></script>
+  <script src="mapa.js"></script>
+</body>
+</html>

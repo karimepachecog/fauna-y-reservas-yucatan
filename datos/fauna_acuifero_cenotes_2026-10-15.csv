@@ -1,0 +1,4 @@
+﻿id,indicador,concepto,valor,unidad,cota,etiqueta
+agua-01,acuifero,Acuífero,100000,km²,minimo,"más de 100,000"
+agua-02,acuifero,Anillo de Cenotes,2192,km²,calculado,"2,192"
+agua-03,cenotes,Cenotes,2000,cenote,minimo,"más de 2,000"

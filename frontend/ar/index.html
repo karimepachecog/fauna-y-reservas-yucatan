@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>La fauna de la península, en tu espacio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/estilos.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <header class="barra">
+    <a href="../index.html">Península</a>
+    <div>
+      <p class="ceja">Realidad aumentada · fuente secundaria: NOM-059</p>
+      <h1>La fauna de la península, en tu espacio</h1>
+    </div>
+    <div class="acciones">
+      <button id="btn-png" type="button">PNG</button>
+      <button id="btn-jpg" type="button">JPG</button>
+    </div>
+  </header>
+  <main class="pagina">
+    <p class="lead">Arrastra para girar el modelo. En un teléfono, el icono de la esquina abre la especie en realidad aumentada. Los modelos son ilustraciones de baja poligonía, no escaneos científicos.</p>
+    <div class="ar-app">
+      <div class="especies" id="especies"></div>
+      <div>
+        <div class="visor">
+          <model-viewer id="visor" camera-controls touch-action="pan-y" auto-rotate shadow-intensity="1" exposure="1.05" ar ar-modes="webxr scene-viewer quick-look" alt="Modelo tridimensional de la especie seleccionada"></model-viewer>
+        </div>
+        <article class="ficha-ar" id="ficha"></article>
+      </div>
+    </div>
+    <p class="fuentes">El estatus de riesgo sale de la NOM-059-SEMARNAT-2010. Los modelos se citan en cada ficha: flamenco de Risa Pizza (CC BY 3.0), jaguar y manatí de Poly by Google (CC BY) y tortuga de marioba (CC BY 3.0), vía Poly Pizza.</p>
+  </main>
+  <script src="../js/exportar.js"></script>
+  <script src="galeria.js"></script>
+</body>
+</html>
